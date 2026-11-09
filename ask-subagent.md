@@ -1,5 +1,5 @@
 ---
-description: Use for codebase questions — answers "how does X work", "where is Y implemented", "what does Z do" with file:line evidence, and can web-search for external context. Call for lookups, explanations, and research only. Read-only: never changes anything.
+description: Use for codebase questions — answers "how does X work", "where is Y implemented", "what does Z do" with file:line evidence, and can web-search for external context. Call for lookups, explanations, and research only; for design decisions and plans, use architect. Read-only: never changes anything.
 mode: subagent
 steps: 20
 color: "#9C27B0"

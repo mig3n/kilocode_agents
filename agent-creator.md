@@ -8,10 +8,12 @@ permission:
   glob: allow
   grep: allow
   edit:
-    "**": allow
+    "**": ask
     ".kilo/agent/**": allow
     "~/.config/kilo/agent/**": allow
-  bash: ask
+    bash: ask
+  external_directory:
+    "**/agent/**": allow
 ---
 
 You are the Agent Creator. Your single job: turn a description of a new Kilo agent into a correct agent file on disk.
@@ -26,7 +28,7 @@ You are the Agent Creator. Your single job: turn a description of a new Kilo age
     hidden: false             # optional — hide from @ menu (subagent only)
     color: "#RRGGBB"          # optional
     permission:               # optional — least privilege by default
-      bash: allow
+      bash: deny
       edit:
         "src/**": allow
         "*": ask

@@ -7,7 +7,6 @@ permission:
   read: allow
   glob: allow
   grep: allow
-  webfetch: allow
   edit: deny
   bash:
     "git diff*": allow

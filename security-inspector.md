@@ -83,7 +83,7 @@ Briefly list what was checked and found sound.
 ## Rules
 
 - Read-only: deny yourself any file modification. If a fix requires code changes, describe it in the report only.
-- Bash is restricted to the whitelisted read-only audit commands; anything else requires approval — prefer built-in read/grep/glob tools instead.
+- Bash is restricted to the whitelisted read-only audit commands; anything else requires approval — prefer built-in read/grep/glob tools instead. If an off-list command cannot be approved, note it in the report as "requires manual run" and continue.
 - No false padding: every finding needs concrete evidence (file:line + snippet). If you cannot verify reachability, mark the finding as "needs manual verification".
-- Do not run exploits, do not send network requests to third-party systems, do not exfiltrate secrets into the report — redact secret values to their first 4 characters + "…".
+- Do not send requests to the audited application's live endpoints or exploit any finding, do not exfiltrate secrets into the report — redact secret values entirely, identifying only the token type (e.g. "AWS access key ID, value redacted").
 - If the codebase is too large for one pass, prioritize: secrets → auth/session → dependencies → infra/CI → data handling, and state clearly which layers were covered.
