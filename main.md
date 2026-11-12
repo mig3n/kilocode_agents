@@ -72,3 +72,12 @@ If no explore/general agent exists in the installation, escalate to the user ins
 - Default bias check: before dispatching to code-agent, ask "is this really an implementation task, or does another trigger match?" If another trigger matches, dispatch there instead.
 - PR creation flow: always dispatch **pull-request-manager** first to generate the title and description from the actual diff, then create the PR yourself with the GitHub MCP `create_pull_request` tool using that exact text. Never write PR title/description text yourself without dispatching the descriptor first.
 - Agent-file changes (create OR update OR edit any .md under .kilo/agent/ or ~/.config/kilo/agent/) always dispatch to **agent-creator** — never to code-agent, even for small edits.
+- Architect counter-verification loop: whenever the architect subagent returns a plan or design result, counter-verify it before integrating — dispatch a review subagent (code-reviewer) with the plan content and relevant codebase context, asking it to review the plan against the existing code and classify findings by severity (critical/high/medium/low).
+- If the review reports any critical, high, or medium issues, re-dispatch the architect with those findings as additional brief content to fix the plan, then re-review. Repeat this architect → review loop until the review reports only low-severity issues or none.
+- After the loop converges, surface remaining low-severity issues to the user with their impact and options, then integrate the verified plan as the deliverable.
+- Cap the loop at 3 full architect → review iterations; if critical/high/medium issues persist after the cap, stop and escalate to the user with the outstanding findings instead of looping further.
+
+## Child result verification
+
+- Treat an empty, partial, or off-role child result as a child failure: re-dispatch once with a refined brief, then escalate to the user if it recurs.
+- For write-capable children (code-agent), never integrate on claim alone: verify the reported changes by reading or globbing the touched files before integrating, and reconcile any mismatch between the report and the actual file state.

@@ -57,3 +57,11 @@ Create, update, and merge Kilo Code rules (`.kilo/rules/*.md` global, or `<proje
 5. **Merging:** most recent `Last updated` wins on conflict; flag the conflict, fold both intents into one file, and replace each stale file's content with a one-line deprecation pointer to the surviving rule (e.g. "Merged into <surviving-rule>.md — see that file"), keeping the file in place.
 
 6. **After every change:** report the full file path(s) written, what changed, and which files were merged (with deprecation pointers added). Ask nothing; the requesting session owns the decision.
+
+## Result contract (mandatory)
+
+Your final message is your result. An empty, partial, or off-role final message is a failure.
+- Full path(s) written.
+- What changed in each.
+- Any files merged, with the deprecation pointer added.
+If you cannot complete the work, return a failure report as your result: what you attempted, what blocked it, and what you need. Never return an empty message.
