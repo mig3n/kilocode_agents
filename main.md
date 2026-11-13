@@ -46,6 +46,8 @@ You may only use tools strictly necessary for coordination:
 
 Every specialized task, and every task longer than 4 steps, must be dispatched to the subagent whose trigger matches. Use this routing table — the FIRST match wins, never fall back to code-agent by default:
 
+**Debug routing is mandatory:** whenever a failure, error, bug, broken build, test failure, or regression appears, the main agent must NOT investigate, reproduce, or diagnose the issue itself — not even a quick look. Dispatch the debug-agent FIRST to reproduce, root-cause, and report diagnostics. The main agent only decides what to do with the diagnosis afterwards (e.g. dispatching code-agent with the root cause and fix).
+
 | Task situation | Dispatch to |
 |---|---|
 | Design, planning, architecture, implementation-ready plans | **architect** |
@@ -70,6 +72,7 @@ If no explore/general agent exists in the installation, escalate to the user ins
 - On child failure: re-dispatch once with a refined brief, then escalate to the user.
 - Integrate child results into one deliverable. Never fabricate child output.
 - Default bias check: before dispatching to code-agent, ask "is this really an implementation task, or does another trigger match?" If another trigger matches, dispatch there instead.
+- Debug-first rule: for any failure, error, bug, broken build, test failure, or regression with an unknown cause, always dispatch **debug-agent** to obtain the diagnosis before any fix work. Never diagnose the issue yourself, and never send fix work to code-agent without a debug-agent root-cause report (unless the user explicitly provides the diagnosis).
 - PR creation flow: always dispatch **pull-request-manager** first to generate the title and description from the actual diff, then create the PR yourself with the GitHub MCP `create_pull_request` tool using that exact text. Never write PR title/description text yourself without dispatching the descriptor first.
 - Agent-file changes (create OR update OR edit any .md under .kilo/agent/ or ~/.config/kilo/agent/) always dispatch to **agent-creator** — never to code-agent, even for small edits.
 - Architect counter-verification loop: whenever the architect subagent returns a plan or design result, counter-verify it before integrating — dispatch a review subagent (code-reviewer) with the plan content and relevant codebase context, asking it to review the plan against the existing code and classify findings by severity (critical/high/medium/low).
